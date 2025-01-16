@@ -44,14 +44,14 @@ func TestDeepUserMeta(t *testing.T) {
 		},
 	}
 
-	meta, err := deepMeta.toUserMeta()
+	meta, err := deepMeta.ToUserMeta()
 	require.NoError(t, err)
 	require.Equal(t, UserMeta{
 		"s":      "text",
 		"json:o": `{"a":[1,2,3]}`,
 	}, meta)
 
-	deepMeta2, err := meta.toDeepUserMeta()
+	deepMeta2, err := meta.ToDeepUserMeta()
 	require.NoError(t, err)
 	require.Equal(t, deepMeta, deepMeta2)
 }

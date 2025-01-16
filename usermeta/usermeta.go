@@ -31,7 +31,7 @@ func MarshalJSON(meta string) ([]byte, error) {
 		return nil, err
 	}
 
-	m, err := dm.toUserMeta()
+	m, err := dm.ToUserMeta()
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func UnmarshalJSON(data []byte) (string, error) {
 		return "", err
 	}
 
-	dm, err := m.toDeepUserMeta()
+	dm, err := m.ToDeepUserMeta()
 	if err != nil {
 		return "", err
 	}
@@ -81,7 +81,7 @@ func Valid(data []byte) bool {
 // objects. It can be converted from/to one-level UserMeta objects.
 type DeepUserMeta map[string]interface{}
 
-func (m DeepUserMeta) toUserMeta() (UserMeta, error) {
+func (m DeepUserMeta) ToUserMeta() (UserMeta, error) {
 	meta := make(UserMeta)
 
 	for k, v := range m {
@@ -98,7 +98,7 @@ func (m DeepUserMeta) toUserMeta() (UserMeta, error) {
 	return meta, nil
 }
 
-func (m UserMeta) toDeepUserMeta() (DeepUserMeta, error) {
+func (m UserMeta) ToDeepUserMeta() (DeepUserMeta, error) {
 	meta := make(DeepUserMeta)
 
 	for k, v := range m {
