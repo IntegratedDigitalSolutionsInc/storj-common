@@ -105,6 +105,30 @@ func (x Object_Status) String() string {
 	return proto.EnumName(Object_Status_name, int32(x))
 }
 
+type MetadataQuery_MetadataQueryType int32
+
+const (
+	MetadataQuery_JSON_MATCH          MetadataQuery_MetadataQueryType = 0
+	MetadataQuery_JMESPATH_FILTER     MetadataQuery_MetadataQueryType = 1
+	MetadataQuery_JMESPATH_PROJECTION MetadataQuery_MetadataQueryType = 2
+)
+
+var MetadataQuery_MetadataQueryType_name = map[int32]string{
+	0: "JSON_MATCH",
+	1: "JMESPATH_FILTER",
+	2: "JMESPATH_PROJECTION",
+}
+
+var MetadataQuery_MetadataQueryType_value = map[string]int32{
+	"JSON_MATCH":          0,
+	"JMESPATH_FILTER":     1,
+	"JMESPATH_PROJECTION": 2,
+}
+
+func (x MetadataQuery_MetadataQueryType) String() string {
+	return proto.EnumName(MetadataQuery_MetadataQueryType_name, int32(x))
+}
+
 type CompressedBatchRequest_CompressionType int32
 
 const (
@@ -2956,6 +2980,279 @@ func (m *ObjectListItemIncludes) GetExcludeSystemMetadata() bool {
 		return m.ExcludeSystemMetadata
 	}
 	return false
+}
+
+type FindObjectsByMetadataRequest struct {
+	Header               *RequestHeader   `protobuf:"bytes,15,opt,name=header,proto3" json:"header,omitempty"`
+	Bucket               []byte           `protobuf:"bytes,1,opt,name=bucket,proto3" json:"bucket,omitempty"`
+	EncryptedPrefix      []byte           `protobuf:"bytes,2,opt,name=encrypted_prefix,json=encryptedPrefix,proto3" json:"encrypted_prefix,omitempty"`
+	EncryptedCursor      []byte           `protobuf:"bytes,3,opt,name=encrypted_cursor,json=encryptedCursor,proto3" json:"encrypted_cursor,omitempty"`
+	VersionCursor        []byte           `protobuf:"bytes,4,opt,name=version_cursor,json=versionCursor,proto3" json:"version_cursor,omitempty"`
+	Limit                int32            `protobuf:"varint,5,opt,name=limit,proto3" json:"limit,omitempty"`
+	Queries              []*MetadataQuery `protobuf:"bytes,6,rep,name=queries,proto3" json:"queries,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
+}
+
+func (m *FindObjectsByMetadataRequest) Reset()         { *m = FindObjectsByMetadataRequest{} }
+func (m *FindObjectsByMetadataRequest) String() string { return proto.CompactTextString(m) }
+func (*FindObjectsByMetadataRequest) ProtoMessage()    {}
+
+func (m *FindObjectsByMetadataRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FindObjectsByMetadataRequest.Unmarshal(m, b)
+}
+func (m *FindObjectsByMetadataRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FindObjectsByMetadataRequest.Marshal(b, m, deterministic)
+}
+func (m *FindObjectsByMetadataRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FindObjectsByMetadataRequest.Merge(m, src)
+}
+func (m *FindObjectsByMetadataRequest) XXX_Size() int {
+	return xxx_messageInfo_FindObjectsByMetadataRequest.Size(m)
+}
+func (m *FindObjectsByMetadataRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_FindObjectsByMetadataRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FindObjectsByMetadataRequest proto.InternalMessageInfo
+
+func (m *FindObjectsByMetadataRequest) GetHeader() *RequestHeader {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataRequest) GetBucket() []byte {
+	if m != nil {
+		return m.Bucket
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataRequest) GetEncryptedPrefix() []byte {
+	if m != nil {
+		return m.EncryptedPrefix
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataRequest) GetEncryptedCursor() []byte {
+	if m != nil {
+		return m.EncryptedCursor
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataRequest) GetVersionCursor() []byte {
+	if m != nil {
+		return m.VersionCursor
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataRequest) GetLimit() int32 {
+	if m != nil {
+		return m.Limit
+	}
+	return 0
+}
+
+func (m *FindObjectsByMetadataRequest) GetQueries() []*MetadataQuery {
+	if m != nil {
+		return m.Queries
+	}
+	return nil
+}
+
+type MetadataQuery struct {
+	QueryType            MetadataQuery_MetadataQueryType `protobuf:"varint,1,opt,name=query_type,json=queryType,proto3,enum=metainfo.MetadataQuery_MetadataQueryType" json:"query_type,omitempty"`
+	QueryValue           []byte                          `protobuf:"bytes,2,opt,name=query_value,json=queryValue,proto3" json:"query_value,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                        `json:"-"`
+	XXX_unrecognized     []byte                          `json:"-"`
+	XXX_sizecache        int32                           `json:"-"`
+}
+
+func (m *MetadataQuery) Reset()         { *m = MetadataQuery{} }
+func (m *MetadataQuery) String() string { return proto.CompactTextString(m) }
+func (*MetadataQuery) ProtoMessage()    {}
+
+func (m *MetadataQuery) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MetadataQuery.Unmarshal(m, b)
+}
+func (m *MetadataQuery) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MetadataQuery.Marshal(b, m, deterministic)
+}
+func (m *MetadataQuery) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MetadataQuery.Merge(m, src)
+}
+func (m *MetadataQuery) XXX_Size() int {
+	return xxx_messageInfo_MetadataQuery.Size(m)
+}
+func (m *MetadataQuery) XXX_DiscardUnknown() {
+	xxx_messageInfo_MetadataQuery.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MetadataQuery proto.InternalMessageInfo
+
+func (m *MetadataQuery) GetQueryType() MetadataQuery_MetadataQueryType {
+	if m != nil {
+		return m.QueryType
+	}
+	return MetadataQuery_JSON_MATCH
+}
+
+func (m *MetadataQuery) GetQueryValue() []byte {
+	if m != nil {
+		return m.QueryValue
+	}
+	return nil
+}
+
+type FindObjectsByMetadataResponse struct {
+	Items                []*FindObjectsByMetadataItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	Cursor               []byte                       `protobuf:"bytes,2,opt,name=cursor,proto3" json:"cursor,omitempty"`
+	VersionCursor        []byte                       `protobuf:"bytes,3,opt,name=version_cursor,json=versionCursor,proto3" json:"version_cursor,omitempty"`
+	More                 bool                         `protobuf:"varint,4,opt,name=more,proto3" json:"more,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                     `json:"-"`
+	XXX_unrecognized     []byte                       `json:"-"`
+	XXX_sizecache        int32                        `json:"-"`
+}
+
+func (m *FindObjectsByMetadataResponse) Reset()         { *m = FindObjectsByMetadataResponse{} }
+func (m *FindObjectsByMetadataResponse) String() string { return proto.CompactTextString(m) }
+func (*FindObjectsByMetadataResponse) ProtoMessage()    {}
+
+func (m *FindObjectsByMetadataResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FindObjectsByMetadataResponse.Unmarshal(m, b)
+}
+func (m *FindObjectsByMetadataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FindObjectsByMetadataResponse.Marshal(b, m, deterministic)
+}
+func (m *FindObjectsByMetadataResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FindObjectsByMetadataResponse.Merge(m, src)
+}
+func (m *FindObjectsByMetadataResponse) XXX_Size() int {
+	return xxx_messageInfo_FindObjectsByMetadataResponse.Size(m)
+}
+func (m *FindObjectsByMetadataResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_FindObjectsByMetadataResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FindObjectsByMetadataResponse proto.InternalMessageInfo
+
+func (m *FindObjectsByMetadataResponse) GetItems() []*FindObjectsByMetadataItem {
+	if m != nil {
+		return m.Items
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataResponse) GetCursor() []byte {
+	if m != nil {
+		return m.Cursor
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataResponse) GetVersionCursor() []byte {
+	if m != nil {
+		return m.VersionCursor
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataResponse) GetMore() bool {
+	if m != nil {
+		return m.More
+	}
+	return false
+}
+
+type FindObjectsByMetadataItem struct {
+	EncryptedObjectKey   []byte        `protobuf:"bytes,1,opt,name=encrypted_object_key,json=encryptedObjectKey,proto3" json:"encrypted_object_key,omitempty"`
+	ObjectVersion        []byte        `protobuf:"bytes,2,opt,name=object_version,json=objectVersion,proto3" json:"object_version,omitempty"`
+	Status               Object_Status `protobuf:"varint,3,opt,name=status,proto3,enum=metainfo.Object_Status" json:"status,omitempty"`
+	StreamId             StreamID      `protobuf:"bytes,4,opt,name=stream_id,json=streamId,proto3,customtype=StreamID" json:"stream_id"`
+	CreatedAt            time.Time     `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3,stdtime" json:"created_at"`
+	StatusAt             time.Time     `protobuf:"bytes,6,opt,name=status_at,json=statusAt,proto3,stdtime" json:"status_at"`
+	ExpiresAt            time.Time     `protobuf:"bytes,7,opt,name=expires_at,json=expiresAt,proto3,stdtime" json:"expires_at"`
+	ClearMetadata        []byte        `protobuf:"bytes,8,opt,name=clear_metadata,json=clearMetadata,proto3" json:"clear_metadata,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
+}
+
+func (m *FindObjectsByMetadataItem) Reset()         { *m = FindObjectsByMetadataItem{} }
+func (m *FindObjectsByMetadataItem) String() string { return proto.CompactTextString(m) }
+func (*FindObjectsByMetadataItem) ProtoMessage()    {}
+
+func (m *FindObjectsByMetadataItem) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FindObjectsByMetadataItem.Unmarshal(m, b)
+}
+func (m *FindObjectsByMetadataItem) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FindObjectsByMetadataItem.Marshal(b, m, deterministic)
+}
+func (m *FindObjectsByMetadataItem) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FindObjectsByMetadataItem.Merge(m, src)
+}
+func (m *FindObjectsByMetadataItem) XXX_Size() int {
+	return xxx_messageInfo_FindObjectsByMetadataItem.Size(m)
+}
+func (m *FindObjectsByMetadataItem) XXX_DiscardUnknown() {
+	xxx_messageInfo_FindObjectsByMetadataItem.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FindObjectsByMetadataItem proto.InternalMessageInfo
+
+func (m *FindObjectsByMetadataItem) GetEncryptedObjectKey() []byte {
+	if m != nil {
+		return m.EncryptedObjectKey
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataItem) GetObjectVersion() []byte {
+	if m != nil {
+		return m.ObjectVersion
+	}
+	return nil
+}
+
+func (m *FindObjectsByMetadataItem) GetStatus() Object_Status {
+	if m != nil {
+		return m.Status
+	}
+	return Object_INVALID
+}
+
+func (m *FindObjectsByMetadataItem) GetCreatedAt() time.Time {
+	if m != nil {
+		return m.CreatedAt
+	}
+	return time.Time{}
+}
+
+func (m *FindObjectsByMetadataItem) GetStatusAt() time.Time {
+	if m != nil {
+		return m.StatusAt
+	}
+	return time.Time{}
+}
+
+func (m *FindObjectsByMetadataItem) GetExpiresAt() time.Time {
+	if m != nil {
+		return m.ExpiresAt
+	}
+	return time.Time{}
+}
+
+func (m *FindObjectsByMetadataItem) GetClearMetadata() []byte {
+	if m != nil {
+		return m.ClearMetadata
+	}
+	return nil
 }
 
 type BeginDeleteObjectRequest struct {

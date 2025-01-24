@@ -2046,6 +2046,22 @@
             ]
           },
           {
+            "name": "MetadataQuery.MetadataQueryType",
+            "enum_fields": [
+              {
+                "name": "JSON_MATCH"
+              },
+              {
+                "name": "JMESPATH_FILTER",
+                "integer": 1
+              },
+              {
+                "name": "JMESPATH_PROJECTION",
+                "integer": 2
+              }
+            ]
+          },
+          {
             "name": "CompressedBatchRequest.CompressionType",
             "enum_fields": [
               {
@@ -3350,6 +3366,173 @@
                 "id": 2,
                 "name": "exclude_system_metadata",
                 "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "FindObjectsByMetadataRequest",
+            "fields": [
+              {
+                "id": 15,
+                "name": "header",
+                "type": "RequestHeader"
+              },
+              {
+                "id": 1,
+                "name": "bucket",
+                "type": "bytes"
+              },
+              {
+                "id": 2,
+                "name": "encrypted_prefix",
+                "type": "bytes"
+              },
+              {
+                "id": 3,
+                "name": "encrypted_cursor",
+                "type": "bytes"
+              },
+              {
+                "id": 4,
+                "name": "version_cursor",
+                "type": "bytes"
+              },
+              {
+                "id": 5,
+                "name": "limit",
+                "type": "int32"
+              },
+              {
+                "id": 6,
+                "name": "queries",
+                "type": "MetadataQuery",
+                "is_repeated": true
+              }
+            ]
+          },
+          {
+            "name": "MetadataQuery",
+            "fields": [
+              {
+                "id": 1,
+                "name": "query_type",
+                "type": "MetadataQueryType"
+              },
+              {
+                "id": 2,
+                "name": "query_value",
+                "type": "bytes"
+              }
+            ]
+          },
+          {
+            "name": "FindObjectsByMetadataResponse",
+            "fields": [
+              {
+                "id": 1,
+                "name": "items",
+                "type": "FindObjectsByMetadataItem",
+                "is_repeated": true
+              },
+              {
+                "id": 2,
+                "name": "cursor",
+                "type": "bytes"
+              },
+              {
+                "id": 3,
+                "name": "version_cursor",
+                "type": "bytes"
+              },
+              {
+                "id": 4,
+                "name": "more",
+                "type": "bool"
+              }
+            ]
+          },
+          {
+            "name": "FindObjectsByMetadataItem",
+            "fields": [
+              {
+                "id": 1,
+                "name": "encrypted_object_key",
+                "type": "bytes"
+              },
+              {
+                "id": 2,
+                "name": "object_version",
+                "type": "bytes"
+              },
+              {
+                "id": 3,
+                "name": "status",
+                "type": "Object.Status"
+              },
+              {
+                "id": 4,
+                "name": "stream_id",
+                "type": "bytes",
+                "options": [
+                  {
+                    "name": "(gogoproto.customtype)",
+                    "value": "StreamID"
+                  },
+                  {
+                    "name": "(gogoproto.nullable)",
+                    "value": "false"
+                  }
+                ]
+              },
+              {
+                "id": 5,
+                "name": "created_at",
+                "type": "google.protobuf.Timestamp",
+                "options": [
+                  {
+                    "name": "(gogoproto.stdtime)",
+                    "value": "true"
+                  },
+                  {
+                    "name": "(gogoproto.nullable)",
+                    "value": "false"
+                  }
+                ]
+              },
+              {
+                "id": 6,
+                "name": "status_at",
+                "type": "google.protobuf.Timestamp",
+                "options": [
+                  {
+                    "name": "(gogoproto.stdtime)",
+                    "value": "true"
+                  },
+                  {
+                    "name": "(gogoproto.nullable)",
+                    "value": "false"
+                  }
+                ]
+              },
+              {
+                "id": 7,
+                "name": "expires_at",
+                "type": "google.protobuf.Timestamp",
+                "options": [
+                  {
+                    "name": "(gogoproto.stdtime)",
+                    "value": "true"
+                  },
+                  {
+                    "name": "(gogoproto.nullable)",
+                    "value": "false"
+                  }
+                ]
+              },
+              {
+                "id": 8,
+                "name": "clear_metadata",
+                "type": "bytes"
               }
             ]
           },
@@ -5558,6 +5741,11 @@
                 "name": "ListObjects",
                 "in_type": "ListObjectsRequest",
                 "out_type": "ListObjectsResponse"
+              },
+              {
+                "name": "FindObjectsByMetadata",
+                "in_type": "FindObjectsByMetadataRequest",
+                "out_type": "FindObjectsByMetadataResponse"
               },
               {
                 "name": "BeginDeleteObject",

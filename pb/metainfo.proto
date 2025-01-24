@@ -40,6 +40,7 @@ service Metainfo {
     rpc CommitObject(CommitObjectRequest) returns (CommitObjectResponse);
     rpc GetObject(GetObjectRequest) returns (GetObjectResponse);
     rpc ListObjects(ListObjectsRequest) returns (ListObjectsResponse);
+    rpc FindObjectsByMetadata(FindObjectsByMetadataRequest) returns (FindObjectsByMetadataResponse);
     rpc BeginDeleteObject(BeginDeleteObjectRequest) returns (BeginDeleteObjectResponse);
     rpc FinishDeleteObject(FinishDeleteObjectRequest) returns (FinishDeleteObjectResponse);
     rpc GetObjectIPs(GetObjectIPsRequest) returns (GetObjectIPsResponse);
@@ -543,6 +544,49 @@ message ObjectListItemIncludes {
     // Because of compatibility with older clients
     // we need to invert the boolean so it defaults to false.
     bool exclude_system_metadata = 2;
+}
+
+message FindObjectsByMetadataRequest {
+    RequestHeader header = 15;
+
+    bytes bucket = 1;
+    bytes encrypted_prefix = 2;
+    bytes encrypted_cursor = 3;
+    bytes version_cursor   = 4;
+    int32 limit = 5;
+
+    repeated MetadataQuery queries = 6;
+}
+
+message MetadataQuery {
+    enum MetadataQueryType {
+        JSON_MATCH = 0;
+        JMESPATH_FILTER = 1;
+        JMESPATH_PROJECTION = 2;
+    }
+
+    MetadataQueryType query_type = 1;
+    bytes query_value = 2;
+}
+
+message FindObjectsByMetadataResponse {
+    repeated FindObjectsByMetadataItem items = 1;
+    bytes cursor = 2;
+    bytes version_cursor = 3;
+    bool more = 4;
+}
+
+message FindObjectsByMetadataItem {
+    bytes encrypted_object_key = 1;
+    bytes object_version = 2;
+    Object.Status status  = 3;
+    bytes stream_id = 4 [(gogoproto.customtype) = "StreamID", (gogoproto.nullable) = false];
+
+    google.protobuf.Timestamp created_at = 5 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+    google.protobuf.Timestamp status_at  = 6 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+    google.protobuf.Timestamp expires_at = 7 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+
+    bytes clear_metadata = 8;
 }
 
 message BeginDeleteObjectRequest {
